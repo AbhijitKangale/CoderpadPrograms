@@ -35,5 +35,4 @@ public class FindPrimeFactorsOfNumber {
 		else
 			System.out.println("At least one test case failed");
 	}
-
 }

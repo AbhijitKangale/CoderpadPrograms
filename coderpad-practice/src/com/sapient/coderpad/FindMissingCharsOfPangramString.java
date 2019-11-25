@@ -11,7 +11,7 @@ public class FindMissingCharsOfPangramString {
 		SortedSet<Character> missingAlphabetLetters = new TreeSet<>();
 
 		for (int i = 0; i < ALPHABET.length(); i++) {
-			missingAlphabetLetters.add(new Character(ALPHABET.charAt(i)));
+			missingAlphabetLetters.add(Character.valueOf(ALPHABET.charAt(i)));
 		}
 
 		String s = input.toLowerCase();
@@ -28,7 +28,8 @@ public class FindMissingCharsOfPangramString {
 		return sb.toString();
 	}
 
-	public static String findMissingLettersOfPangramAlternateSolution(String input) {
+	public static String findMissingLettersOfPangramAlternateSolution(
+			String input) {
 
 		int missingLetterIndex[] = new int[26];
 		int index = 0;
@@ -54,10 +55,10 @@ public class FindMissingCharsOfPangramString {
 
 		boolean pass = true;
 
-		pass = pass && "".equals(FindMissingCharsOfPangramString
-				.findMissingLettersOfPangram("The quick brown fox jumps over the lazy dog"));
+		pass = pass && "".equals(findMissingLettersOfPangram(
+				"The quick brown fox jumps over the lazy dog"));
 		pass = pass && "asdfv"
-				.equals(FindMissingCharsOfPangramString.findMissingLettersOfPangram("sdfgwejklsdfhgasnvljkn"));
+				.equals(findMissingLettersOfPangram("sdfgwejklsdfhgasnvljkn"));
 
 		if (pass)
 			System.out.println("All test cases are passed");

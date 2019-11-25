@@ -1,6 +1,6 @@
 package com.sapient.coderpad;
 
-public class FindSmallestNumberInSortedButRotetedArray {
+public class FindSmallestNumberInSortedButRotatedArray {
 
 	public static int findMin(int a[]) {
 		if (a == null)
