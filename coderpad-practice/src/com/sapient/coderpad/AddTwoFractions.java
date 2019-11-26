@@ -24,9 +24,6 @@ public class AddTwoFractions {
 			resultDen = (den1 * den2);
 		}
 
-		if (resultNum == 1)
-			return new int[]{0, 1};
-
 		int gcd = findGCD(resultNum, resultDen);
 
 		return new int[]{resultNum / gcd, resultDen / gcd};

@@ -19,7 +19,8 @@ public class CountStairClimbCombinationsForGivenNumberOfHops {
 		List<Integer> combinationList = new ArrayList<>(
 				Arrays.asList(0, 1, 2, 4));
 		for (int i = 4; i <= n; i++)
-			combinationList.add((i - 1) + (i - 2) + (i - 3));
+			combinationList.add(combinationList.get(i - 1)
+					+ combinationList.get(i - 2) + combinationList.get(i - 3));
 
 		return combinationList.get(n);
 	}
