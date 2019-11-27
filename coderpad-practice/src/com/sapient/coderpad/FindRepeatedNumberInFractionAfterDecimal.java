@@ -58,6 +58,7 @@ public class FindRepeatedNumberInFractionAfterDecimal {
 		pass = pass && findRepeatedNumberInFraction(1, 2).equals("0.5");
 		pass = pass && findRepeatedNumberInFraction(1, 3).equals("0.(3)");
 		pass = pass && findRepeatedNumberInFraction(6, 11).equals("0.(54)");
+		pass = pass && findRepeatedNumberInFraction(-6, 11).equals("-0.(54)");
 
 		if (pass)
 			System.out.println("All test cases passed");

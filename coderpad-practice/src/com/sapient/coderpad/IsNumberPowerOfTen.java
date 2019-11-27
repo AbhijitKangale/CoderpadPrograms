@@ -1,6 +1,6 @@
 package com.sapient.coderpad;
 
-public class IsNumberPowerOfTem {
+public class IsNumberPowerOfTen {
 
 	public static boolean isPowerOf10(int number) {
 		while (number > 1) {

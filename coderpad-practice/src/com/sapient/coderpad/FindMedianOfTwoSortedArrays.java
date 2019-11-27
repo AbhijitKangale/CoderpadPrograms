@@ -23,8 +23,8 @@ public class FindMedianOfTwoSortedArrays {
 			int index2 = index1 + 1;
 			median = (mergedArray[index1 - 1] + mergedArray[index2 - 1]) / 2.0;
 		} else {
-			int index = (length / 2) + 1;
-			median = mergedArray[index - 1];
+			int index = length / 2;
+			median = mergedArray[index];
 		}
 
 		return median;
