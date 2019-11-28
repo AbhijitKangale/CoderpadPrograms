@@ -9,15 +9,39 @@ public class FindMinStepsRequiredToGetEncodedMagicPotion {
 
 		StringBuffer sb = new StringBuffer();
 		Set<Character> manipulationSet = new HashSet<>();
+		int count = 0;
 
 		for (int i = 0; i < input.length(); i++) {
-			if (manipulationSet.add(input.charAt(i)))
+			// to check if char is repeated, if not repeated then add to encoded string
+			if (manipulationSet.add(input.charAt(i))) {
+
+				if (count != 0) {
+
+					// this is to check if set of first few chars are repeated
+					if (input.substring(0, count).equals(input.substring(count, count * 2))) {
+						sb.append("*");
+					} else
+						// if first few chars are not repeated then add it to encoded string
+						sb.append(input.substring(0, count));
+					count = 0;
+				}
+
+				// adding char to encoded string
 				sb.append(input.charAt(i));
-			else {
-				if (!sb.substring(sb.length() - 1, sb.length()).toString()
-						.equals("*"))
-					sb.append("*");
-			}
+
+			} else
+				count++;
+		}
+
+		// in case if all last few chars are not repeated
+		if (count != 0) {
+
+			// this is to check if set of first few chars are repeated
+			if (input.substring(0, count).equals(input.substring(count, count * 2))) {
+				sb.append("*");
+			} else
+				// if first few chars are not repeated then add it to encoded string
+				sb.append(input.substring(input.length() - count, input.length()));
 		}
 
 		return sb.length();
@@ -26,7 +50,7 @@ public class FindMinStepsRequiredToGetEncodedMagicPotion {
 	public static void main(String args[]) {
 		boolean pass = true;
 
-		pass = pass && getMinimumSteps("ABABCABABCE") == 6;
+		pass = pass && getMinimumSteps("ABABCABABA") == 9;
 		pass = pass && getMinimumSteps("ABCDABCE") == 8;
 		pass = pass && getMinimumSteps("ABCABCE") == 5;
 
