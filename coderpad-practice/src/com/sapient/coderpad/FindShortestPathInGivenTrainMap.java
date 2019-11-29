@@ -1,88 +1,19 @@
 package com.sapient.coderpad;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Set;
-
-class TrainNetworkGraph {
-	static class Graph {
-		HashMap<Object, LinkedList<Object>> adjList = new HashMap<>();
-		HashMap<Object, Integer> indexes = new HashMap<>();
-		int index = -1;
-
-		public Graph(ArrayList<Object> vertices) {
-			for (int i = 0; i < vertices.size(); i++) {
-				Object vertex = vertices.get(i);
-				LinkedList<Object> list = new LinkedList<>();
-				adjList.put(vertex, list);
-				indexes.put(vertex, ++index);
-			}
-		}
-
-		public void addEdge(Object source, Object destination) {
-			// add forward edge
-			LinkedList<Object> list;
-			list = adjList.get(source);
-			list.addFirst(destination);
-			adjList.put(source, list);
-		}
-
-		public void DFS() {
-			int vertices = adjList.size();
-			boolean[] visited = new boolean[vertices];
-
-			for (Map.Entry<Object, LinkedList<Object>> entry : adjList.entrySet()) {
-				Object source = entry.getKey();
-				if (!visited[indexes.get(source)]) {
-					DFSUtil(source, visited);
-				}
-//                System.out.println("Key = " +  +
-//                        ", Value = " + entry.getValue());
-			}
-		}
-
-		public void DFSUtil(Object source, boolean[] visited) {
-
-			// mark this visited
-			visited[indexes.get(source)] = true;
-
-			System.out.print(source + " ");
-			LinkedList<Object> list = adjList.get(source);
-			for (int i = 0; i < list.size(); i++) {
-				Object destination = list.get(i);
-				if (!visited[indexes.get(destination)])
-					DFSUtil(destination, visited);
-			}
-		}
-
-		public void printGraph() {
-			Set<Object> set = adjList.keySet();
-			Iterator<Object> iterator = set.iterator();
-
-			while (iterator.hasNext()) {
-				// Object vertex = iterator.next();
-				FindShortestPathInGivenTrainMap.Station vertex = (FindShortestPathInGivenTrainMap.Station) iterator.next();
-				System.out.print("Station " + vertex.getName() + " is connected to --> ");
-				LinkedList<FindShortestPathInGivenTrainMap.Station> list = (LinkedList<FindShortestPathInGivenTrainMap.Station>) (Object) adjList.get(vertex);
-				for (int i = 0; i < list.size(); i++) {
-					System.out.print(list.get(i).getName() + " ");
-				}
-				System.out.println();
-			}
-		}
-	}
-}
+import java.util.Queue;
 
 public class FindShortestPathInGivenTrainMap {
 
 	static class Station {
+
 		private String name;
+
 		private List<Station> neighbours;
 
 		public Station(String name) {
@@ -144,16 +75,53 @@ public class FindShortestPathInGivenTrainMap {
 		}
 
 		public List<Station> shortestPath(String from, String to) {
-			/*
-			 * TODO Implement
-			 * 
-			 * 
-			 */
 
-			return Collections.emptyList();
+			// return null if both source and destination station are null
+			if (from == null && to == null)
+				return null;
+
+			// this queue is to maintain station to be visited next
+			Queue<Station> toVisit = new LinkedList<>();
+			Map<Station, Station> parents = new HashMap<>();
+
+			// add source station to queue so that we can start traversing tree from this
+			// station
+			toVisit.add(this.getStation(from));
+			parents.put(this.getStation(from), null);
+
+			while (!toVisit.isEmpty()) {
+				Station station = toVisit.remove();
+
+				if (station.equals(this.getStation(to)))
+					break;
+
+				for (Station adjStations : station.neighbours) {
+
+					// to make sure visited vertex should not be visited again
+					if (!parents.containsKey(adjStations)) {
+						toVisit.add(adjStations);
+						parents.put(adjStations, station);
+					}
+				}
+			}
+
+			// if there is no path from given source to destination then return null
+			if (parents.get(this.getStation(to)) == null)
+				return null;
+
+			List<Station> shortestPathFromSourceToDestination = new LinkedList<>();
+			Station current = this.getStation(to);
+			while (current != null) {
+
+				// add each vertex at head so that retrieval will be in reverse order
+				shortestPathFromSourceToDestination.add(0, current);
+				current = parents.get(current);
+			}
+
+			return shortestPathFromSourceToDestination;
 		}
 
-		public static String convertPathToStringRepresentation(List<Station> path) {
+		private static String convertPathToStringRepresentation(List<Station> path) {
 			if (path.isEmpty()) {
 				return "";
 			}
@@ -162,8 +130,7 @@ public class FindShortestPathInGivenTrainMap {
 	}
 
 	public static boolean doTestsPass() {
-		// todo: implement more tests, please
-		// feel free to make testing more elegant
+
 		TrainMap trainMap = new TrainMap();
 
 		trainMap.addStation("King's Cross St Pancras").addStation("Angel").addStation("Old Street")
@@ -185,41 +152,8 @@ public class FindShortestPathInGivenTrainMap {
 
 		String solution = "King's Cross St Pancras->Russel Square->Holborn->Chancery Lane->St Paul's";
 
-		ArrayList<Object> vertices = new ArrayList<>();
-
-		vertices.add(trainMap.getStation("King's Cross St Pancras"));
-		vertices.add(trainMap.getStation("Angel"));
-		vertices.add(trainMap.getStation("Old Street"));
-		vertices.add(trainMap.getStation("Moorgate"));
-		vertices.add(trainMap.getStation("Farringdon"));
-		vertices.add(trainMap.getStation("Barbican"));
-		vertices.add(trainMap.getStation("Russel Square"));
-		vertices.add(trainMap.getStation("Holborn"));
-		vertices.add(trainMap.getStation("Chancery Lane"));
-		vertices.add(trainMap.getStation("St Paul's"));
-		vertices.add(trainMap.getStation("Bank"));
-
-		TrainNetworkGraph.Graph graph = new TrainNetworkGraph.Graph(vertices);
-
-		graph.addEdge(trainMap.getStation("King's Cross St Pancras"), trainMap.getStation("Angel"));
-		graph.addEdge(trainMap.getStation("King's Cross St Pancras"), trainMap.getStation("Farringdon"));
-		graph.addEdge(trainMap.getStation("King's Cross St Pancras"), trainMap.getStation("Russel Square"));
-		graph.addEdge(trainMap.getStation("Russel Square"), trainMap.getStation("Holborn"));
-		graph.addEdge(trainMap.getStation("Holborn"), trainMap.getStation("Chancery Lane"));
-		graph.addEdge(trainMap.getStation("Chancery Lane"), trainMap.getStation("St Paul's"));
-		graph.addEdge(trainMap.getStation("St Paul's"), trainMap.getStation("Bank"));
-		graph.addEdge(trainMap.getStation("Angel"), trainMap.getStation("Old Street"));
-		graph.addEdge(trainMap.getStation("Old Street"), trainMap.getStation("Moorgate"));
-		graph.addEdge(trainMap.getStation("Moorgate"), trainMap.getStation("Bank"));
-		graph.addEdge(trainMap.getStation("Farringdon"), trainMap.getStation("Barbican"));
-		graph.addEdge(trainMap.getStation("Barbican"), trainMap.getStation("Moorgate"));
-
-		graph.printGraph();
-
-//		return solution.equals(TrainMap
-//				.convertPathToStringRepresentation(trainMap.shortestPath("King's Cross St Pancras", "St Paul's")));
-
-		return true;
+		return solution.equals(TrainMap
+				.convertPathToStringRepresentation(trainMap.shortestPath("King's Cross St Pancras", "St Paul's")));
 	}
 
 	public static void main(String[] args) {
