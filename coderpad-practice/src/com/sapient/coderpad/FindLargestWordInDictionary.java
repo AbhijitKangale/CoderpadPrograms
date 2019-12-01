@@ -38,11 +38,11 @@ public class FindLargestWordInDictionary {
 			}
 		}
 
-		System.out.println(result);
 		return result;
 	}
 
-	private static void permute(char[] arr, int index, Dictionary dict, Set<String> words) {
+	private static void permute(char[] arr, int index, Dictionary dict,
+			Set<String> words) {
 
 		if (arr.length == index) {
 			combinations(arr, dict, words);
@@ -56,14 +56,14 @@ public class FindLargestWordInDictionary {
 		}
 	}
 
-	private static void combinations(char[] arr, Dictionary dict, Set<String> words) {
+	private static void combinations(char[] arr, Dictionary dict,
+			Set<String> words) {
 		StringBuffer buff = new StringBuffer();
 		for (int i = 0; i < arr.length; i++) {
 			buff.append(arr[i]);
 
-			if (dict.contains(buff.toString())) {
+			if (dict.contains(buff.toString()))
 				words.add(buff.toString());
-			}
 		}
 	}
 
@@ -76,11 +76,13 @@ public class FindLargestWordInDictionary {
 	}
 
 	public static boolean doTestsPass() {
-		Dictionary dict = new Dictionary(
-				new String[] { "to", "toe", "toes", "doe", "dog", "god", "dogs", "book", "banana" });
+		Dictionary dict = new Dictionary(new String[]{"to", "toe", "toes",
+				"doe", "dog", "god", "dogs", "book", "banana"});
 
-		boolean result = new HashSet<String>(Arrays.asList("toe")).equals(longestWord("toe", dict));
-		result = result && new HashSet<String>(Arrays.asList("toes", "dogs")).equals(longestWord("osetdg", dict));
+		boolean result = new HashSet<String>(Arrays.asList("toe"))
+				.equals(longestWord("toe", dict));
+		result = result && new HashSet<String>(Arrays.asList("toes", "dogs"))
+				.equals(longestWord("osetdg", dict));
 
 		return result;
 	}
