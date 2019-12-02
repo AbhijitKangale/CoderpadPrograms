@@ -5,23 +5,23 @@ import java.util.Arrays;
 public class ImplementRobotMovements {
 
 	public static Integer[] walk(String path) {
-		Integer[] result = new Integer[]{0, 0};
+		Integer[] result = new Integer[] { 0, 0 };
 		for (char ch : path.toCharArray()) {
 			switch (ch) {
-				case 'U' :
-					result[1] += 1;
-					break;
-				case 'D' :
-					result[1] -= 1;
-					break;
-				case 'L' :
-					result[0] -= 1;
-					break;
-				case 'R' :
-					result[0] += 1;
-					break;
-				default :
-					break;
+			case 'U':
+				result[1] += 1;
+				break;
+			case 'D':
+				result[1] -= 1;
+				break;
+			case 'L':
+				result[0] -= 1;
+				break;
+			case 'R':
+				result[0] += 1;
+				break;
+			default:
+				break;
 			}
 		}
 
@@ -37,13 +37,19 @@ public class ImplementRobotMovements {
 		{
 			String test = "";
 			Integer[] result = walk(test);
-			res &= isEquals(result, new Integer[]{0, 0});
+			res &= isEquals(result, new Integer[] { 0, 0 });
 		}
 
 		{
 			String test = "L";
 			Integer[] result = walk(test);
-			res &= isEquals(result, new Integer[]{-1, 0});
+			res &= isEquals(result, new Integer[] { -1, 0 });
+		}
+
+		{
+			String test = "UDDLLRUUUDUURUDDUULLDRRRR";
+			Integer[] result = walk(test);
+			res &= isEquals(result, new Integer[] { 2, 3 });
 		}
 
 		return res;

@@ -1,6 +1,6 @@
 package com.sapient.coderpad;
 
-public class ShortestDistanceBetwenTwoStrings {
+public class ShortestDistanceBetwenTwoWords {
 
 	private static final String _paragraph;
 

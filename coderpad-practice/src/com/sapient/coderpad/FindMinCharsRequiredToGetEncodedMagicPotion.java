@@ -3,9 +3,9 @@ package com.sapient.coderpad;
 import java.util.HashSet;
 import java.util.Set;
 
-public class FindMinStepsRequiredToGetEncodedMagicPotion {
+public class FindMinCharsRequiredToGetEncodedMagicPotion {
 
-	public static int getMinimumSteps(String input) {
+	public static int getMinimumChars(String input) {
 
 		StringBuffer sb = new StringBuffer();
 		Set<Character> manipulationSet = new HashSet<>();
@@ -50,9 +50,9 @@ public class FindMinStepsRequiredToGetEncodedMagicPotion {
 	public static void main(String args[]) {
 		boolean pass = true;
 
-		pass = pass && getMinimumSteps("ABABCABABA") == 9;
-		pass = pass && getMinimumSteps("ABCDABCE") == 8;
-		pass = pass && getMinimumSteps("ABCABCE") == 5;
+		pass = pass && getMinimumChars("ABABCABABA") == 9;
+		pass = pass && getMinimumChars("ABCDABCE") == 8;
+		pass = pass && getMinimumChars("ABCABCE") == 5;
 
 		if (pass)
 			System.out.println("All test cases passed");
