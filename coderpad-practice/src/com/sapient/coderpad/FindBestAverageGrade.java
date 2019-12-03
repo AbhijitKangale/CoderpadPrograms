@@ -14,15 +14,15 @@ public class FindBestAverageGrade {
 		if (scoreRows == null || scoreRows.length == 0)
 			return 0;
 
-		Map<String, List<Integer>> studentWithScoreList = new HashMap<>();
+		Map<String, List<Double>> studentWithScoreList = new HashMap<>();
 		for (String[] scoreRow : scoreRows) {
 			if (scoreRow.length != 2)
 				return 0;
 
 			String student = scoreRow[0];
-			Integer score = Integer.parseInt(scoreRow[1]);
+			Double score = Double.parseDouble(scoreRow[1]);
 
-			List<Integer> studentScores = studentWithScoreList.get(student);
+			List<Double> studentScores = studentWithScoreList.get(student);
 			if (studentScores == null) {
 				studentScores = new ArrayList<>();
 				studentScores.add(score);
@@ -33,12 +33,16 @@ public class FindBestAverageGrade {
 
 		Double max = -Double.MAX_VALUE;
 
-		for (List<Integer> eachStudentScores : studentWithScoreList.values()) {
-			int sum = 0;
-			for (Integer score : eachStudentScores)
+		for (List<Double> eachStudentScores : studentWithScoreList.values()) {
+			double sum = 0;
+			for (Double score : eachStudentScores)
 				sum += score;
 
 			double average = sum / eachStudentScores.size();
+
+			// this depends on the requirement
+			// average = Math.floor(average);
+
 			max = Math.max(max, average);
 		}
 
@@ -50,16 +54,16 @@ public class FindBestAverageGrade {
 		if (scoreRows == null || scoreRows.length == 0)
 			return 0;
 
-		Map<String, List<Integer>> studentWithScoreList = new HashMap<>();
+		Map<String, List<Double>> studentWithScoreList = new HashMap<>();
 
 		for (String[] scoreRow : scoreRows) {
 			if (scoreRow.length != 2)
 				return 0;
 
 			String student = scoreRow[0];
-			Integer score = Integer.parseInt(scoreRow[1]);
+			Double score = Double.parseDouble(scoreRow[1]);
 
-			List<Integer> studentScores = studentWithScoreList.get(student);
+			List<Double> studentScores = studentWithScoreList.get(student);
 			if (studentScores == null) {
 				studentScores = new ArrayList<>();
 				studentScores.add(score);
@@ -68,9 +72,9 @@ public class FindBestAverageGrade {
 				studentScores.add(score);
 		}
 
-		return (int) Math.round(studentWithScoreList.entrySet().stream()
+		return (int) Math.floor(studentWithScoreList.entrySet().stream()
 				.collect(Collectors.toMap(Map.Entry::getKey,
-						e -> e.getValue().stream().mapToInt(Integer::intValue).average().getAsDouble()))
+						e -> e.getValue().stream().mapToDouble(Double::doubleValue).average().getAsDouble()))
 				.entrySet().stream().max((p, q) -> p.getValue() > q.getValue() ? 1 : -1).get().getValue());
 	}
 
@@ -83,6 +87,9 @@ public class FindBestAverageGrade {
 		inputTests.put(new String[][] {}, 0);
 
 		inputTests.put(new String[][] { { "Bobby", "87" }, { "Charles" }, { "Eric", "64" }, { "Charles", "22" } }, 0);
+
+		inputTests.put(new String[][] { { "Bobby", "-87.1" }, { "Charles", "-100" }, { "Eric", "-64" },
+				{ "Charles", "-26.7" } }, -64);
 
 		for (Map.Entry<String[][], Integer> test : inputTests.entrySet()) {
 			Integer actual = findBestAverageGrade(test.getKey());
