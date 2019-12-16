@@ -1,5 +1,10 @@
 package com.sapient.coderpad;
 
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+
 public class FindFirstNonRepeatingCharacter {
 
 	private static int NO_OF_CHARS = 256;
@@ -25,20 +30,35 @@ public class FindFirstNonRepeatingCharacter {
 		return index;
 	}
 
+	public static int getFirstNonRepeatingUsingJava8(String input) {
+		Map<Integer, Long> characters = input.chars().boxed()
+				.collect(Collectors.groupingBy(Function.identity(), LinkedHashMap::new, Collectors.counting()));
+
+		return input.indexOf(characters.entrySet().stream().filter(i -> i.getValue() == 1L).findFirst()
+				.map(Map.Entry::getKey).orElse(-1));
+	}
+
 	public static void main(String[] args) {
 
-		String inputs[] = new String[]{"apple", "aa"};
-		int expectedOutput[] = new int[]{0, -1};
+		String inputs[] = new String[] { "apple", "aa" };
+		int expectedOutput[] = new int[] { 0, -1 };
 		boolean pass = true;
+		boolean passForJava8 = true;
 
 		for (int i = 0; i < inputs.length; i++) {
-			pass = pass && getFistNonRepeatingCharacter(
-					inputs[i]) == expectedOutput[i];
+			pass = pass && getFistNonRepeatingCharacter(inputs[i]) == expectedOutput[i];
 
 			if (pass)
-				System.out.println("Test case for passed for ==> " + inputs[i]);
+				System.out.println("Test case for passed for input ==> " + inputs[i]);
 			else
-				System.out.println("Test case for failed for ==>" + inputs[i]);
+				System.out.println("Test case for failed for input ==>" + inputs[i]);
+
+			passForJava8 = passForJava8 && getFirstNonRepeatingUsingJava8(inputs[i]) == expectedOutput[i];
+
+			if (pass)
+				System.out.println("Test case for passed for Java 8 for input ==> " + inputs[i]);
+			else
+				System.out.println("Test case for failed for Java 8 for input ==>" + inputs[i]);
 		}
 	}
 }

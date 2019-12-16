@@ -30,8 +30,10 @@ public class FindAtoi {
 
 		int result = 0;
 
-		while (input.length() > i && input.charAt(i) >= '0' && input.charAt(i) <= '9') {
-			result = result * 10 + (input.charAt(i) - '0');
+		while (input.length() > i) {
+			if (input.charAt(i) >= '0' && input.charAt(i) <= '9')
+				result = result * 10 + (input.charAt(i) - '0');
+
 			i++;
 		}
 
@@ -52,7 +54,7 @@ public class FindAtoi {
 	public static void main(String[] args) {
 
 		String inputs[] = new String[] { "45", "12 3", "", "a45", "-857", " " };
-		int expectedOutput[] = new int[] { 45, 0, 0, 0, -857, 0 };
+		int expectedOutput[] = new int[] { 45, 0, 0, 45, -857, 0 };
 		boolean pass = true;
 
 		for (int i = 0; i < inputs.length; i++) {

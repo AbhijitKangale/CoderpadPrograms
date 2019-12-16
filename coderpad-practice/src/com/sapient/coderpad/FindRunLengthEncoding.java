@@ -5,23 +5,19 @@ public class FindRunLengthEncoding {
 	public static String findRunLengthEncoding(String input) {
 		StringBuffer sb = new StringBuffer();
 
-		char lastSeen = 0;
 		int count = 1;
 
 		for (int i = 0; i < input.length(); i++) {
 			char current = input.charAt(i);
-			if (current == lastSeen) {
+			if (i < input.length() - 1 && current == input.charAt(i + 1)) {
 				count++;
-				continue;
 			} else {
-				if (lastSeen != 0)
-					sb.append(lastSeen).append(count);
+				sb.append(current).append(count);
+				count = 1;
 			}
-			count = 1;
-			lastSeen = current;
 		}
 
-		return sb.append(lastSeen).append(count).toString();
+		return sb.toString();
 	}
 
 	public static void main(String[] args) {
@@ -29,7 +25,7 @@ public class FindRunLengthEncoding {
 		boolean pass = true;
 
 		pass = pass && findRunLengthEncoding("aaabb").equals("a3b2");
-		pass = pass && findRunLengthEncoding("aaaccbb").equals("a3c1b2");
+		pass = pass && findRunLengthEncoding("aaaccbb").equals("a3c2b2");
 
 		if (pass)
 			System.out.println("All test cases are passed");
